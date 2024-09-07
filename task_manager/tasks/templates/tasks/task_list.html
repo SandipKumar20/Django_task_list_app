@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Task List</h1>
+
+        <!-- Form for filtering by status and sorting tasks -->
+        <form method="get" class="form-inline justify-content-center mb-4">
+            <div class="form-group mr-2">
+                <label for="status" class="mr-2">Filter by status:</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="">All</option>
+                    <option value="To Do" {% if request.GET.status == 'To Do' %}selected{% endif %}>To Do</option>
+                    <option value="In Progress" {% if request.GET.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                    <option value="Done" {% if request.GET.status == 'Done' %}selected{% endif %}>Done</option>
+                </select>
+            </div>
+
+            <div class="form-group mr-2">
+                <label for="sort_by" class="mr-2">Sort by:</label>
+                <select name="sort_by" id="sort_by" class="form-control">
+                    <option value="priority" {% if request.GET.sort_by == 'priority' %}selected{% endif %}>Priority</option>
+                    <option value="due_date" {% if request.GET.sort_by == 'due_date' %}selected{% endif %}>Due Date</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+
+        <!-- Table to display tasks -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Due Date</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                        <tr>
+                            <td>{{ task.title }}</td>
+                            <td>{{ task.description }}</td>
+                            <td>{{ task.due_date }}</td>
+                            <td>{{ task.get_priority_display }}</td>
+                            <td>{{ task.status }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
